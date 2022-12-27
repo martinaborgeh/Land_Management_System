@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<P>{{user.username}}</P>
+{{message}}
+<p> Dont' have account <a href = "{% url 'Search' %}">  Go back to Search Parcel Page</a></p>
+{% endblock %}

@@ -1,0 +1,476 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load leaflet_tags %}
+{% leaflet_js %}
+{% leaflet_css %}
+
+{% if user.is_authenticated %}
+{% if polygon_data1 and not polygon_data2 and not polygon_data3 %}
+<div>
+ <script type = "text/javascript">
+    
+    function map_init_basic(map,options){
+    //    L.marker([6.544803562766342 -1.3967508162428213],{color:'red'}).addTo(map)
+        var poly = JSON.parse("{{polygon_data1|escapejs}}")
+        var parcelid = JSON.parse("{{owner_details.ParcelId|escapejs}}")
+        
+        
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+}).addTo(map);
+L.polygon(poly,{color:'red'}).bindPopup("Parcel Id" + ' ' + parcelid).addTo(map);
+
+
+   
+        
+        
+        
+    }
+ </script>
+{% leaflet_map "yourmap" callback="window.map_init_basic" %}
+<!-- <p class='table_data'>welcome</p> -->
+</div>
+<div class ="details">
+    
+<div class = "details-subcont">
+
+<div style = 'color:white'>
+    <table border =3 solid white id = 'table-data'></table>
+    <script>
+            var table = "<caption style='border:5px solid white'> BOUNDARY CORNER COORDINATES</caption>";
+            var rows = JSON.parse("{{nationalGrid|escapejs}}");
+            for (var r = 0; r<rows.length;r++){
+                 var rowitem = rows[r]
+                 table+='<tr>';
+                     for (var c=0;c < rowitem.length; c++){
+                         table += "<td style ='border:5px solid white','width:50px' >"+ rowitem[c]+ "</td>";
+                     }
+                 table+='</tr>'
+
+             }
+
+             document.write('<table>' + table + '</table>')
+            
+    </script>
+
+    </div>
+
+     <div style = 'color:blue' class = 'personal_details'>
+                
+          <table><caption style ='border:1px solid white'>
+            LAND OWNER DETAILS
+        </caption>
+              <tr>
+              <th style ='border:5px solid white'>Column</th>
+              <th style ='border:5px solid white'>Details</th>
+              </tr>
+              <tr>
+                  <td style ='border:5px solid white'>First Name</td>
+                  <td style ='border:5px solid white'>{{owner_details.First_Name}}</td>
+              </tr>
+              <tr>
+                <td style ='border:5px solid white'>Surname</td>
+                <td style ='border:5px solid white'>{{owner_details.Surname}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Parcel Id</td>
+                <td style ='border:5px solid white'>{{owner_details.ParcelId}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Region</td>
+                <td style ='border:5px solid white'>{{owner_details.Region}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> District</td>
+                <td style ='border:5px solid white'>{{owner_details.District}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Locality</td>
+                <td style ='border:5px solid white'>{{owner_details.Locality}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Parcel Size(Acres)</td>
+                <td style ='border:5px solid white'>{{owner_details.ParcelSizeInAcres}}</td>
+            </tr>
+
+              
+          </table>
+            
+       
+</div>
+<img style = 'border-radius: 15px' src="{{owner_details.OwnerPhoto.url}}">
+</div>
+</div>
+<div>
+ {% elif polygon_data1 and polygon_data2 and not polygon_data3 %}
+<div>
+ <script type = "text/javascript">
+    function map_init_basic(map,options){
+    
+        var poly1 = JSON.parse("{{polygon_data1|escapejs}}")
+        var parcelid1 = JSON.parse("{{owner_detail1.ParcelId|escapejs}}")
+        var parcelid2 = JSON.parse("{{owner_detail2.ParcelId|escapejs}}")
+        var poly2 = JSON.parse("{{polygon_data2|escapejs}}")
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+}).addTo(map);
+        L.polygon(poly1,{color:'red'}).bindPopup('Parcel ID' + ' '+ parcelid1).addTo(map);
+        L.polygon(poly2,{color:'red'}).bindPopup('Parcel ID' + ' '+ parcelid2).addTo(map);
+  }  
+ </script>
+{% leaflet_map "yourmap" callback="window.map_init_basic" %}
+</div>
+<div class = "details2">
+    <div class = "first-data">
+ <div style = 'color:white'>
+    <table border =5 solid black id = 'table-data1'></table>
+    <script>
+            var table = "<caption style='border:5px solid white'>BOUNDARY CORNER COORDINATES</caption>";
+            var rows = JSON.parse("{{nationalGrid1|escapejs}}");
+            for (var r = 0; r<rows.length;r++){
+                 var rowitem = rows[r]
+                 table+='<tr>';
+                     for (var c=0;c < rowitem.length; c++){
+                         table += "<td style ='border:5px solid white' >"+ rowitem[c]+ "</td>";
+                     }
+                 table+='</tr>'
+
+             }
+
+             document.getElementById('table-data1').innerHTML=table
+
+    </script>
+
+    </div>
+
+     <div style = 'color:blue' class = 'personal_details'>
+                
+          <table><caption style ='border:5px solid white'>LAND OWNER DETAILS</caption>
+              <tr>
+              <th style ='border:5px solid white'>Column</th>
+              <th style ='border:5px solid white'>Details</th>
+              </tr>
+              <tr>
+                  <td style ='border:5px solid white'>First Name</td>
+                  <td style ='border:5px solid white'>{{owner_detail1.First_Name}}</td>
+              </tr>
+              <tr>
+                <td style ='border:5px solid white'>Surname</td>
+                <td style ='border:5px solid white'>{{owner_detail1.Surname}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Parcel Id</td>
+                <td style ='border:5px solid white'>{{owner_detail1.ParcelId}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Region</td>
+                <td style ='border:5px solid white'>{{owner_detail1.Region}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> District</td>
+                <td style ='border:5px solid white'>{{owner_detail1.District}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Locality</td>
+                <td style ='border:5px solid white'>{{owner_detail1.Locality}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Parcel Size(Acres)</td>
+                <td style ='border:5px solid white'>{{owner_detail1.ParcelSizeInAcres}}</td>
+
+              
+          </table>
+            
+       
+</div>
+<img style = 'border-radius: 15px' src="{{owner_detail1.OwnerPhoto.url}}">
+</div>
+<div class="second-data">
+    <div style = 'color:white'>
+        <table border =5 solid white id = 'table-data2'></table>
+        <script>
+                var table = "<caption style='border:5px solid white'>BOUNDARY CORNER COORDINATES</caption>";
+                var rows = JSON.parse("{{nationalGrid2|escapejs}}");
+                for (var r = 0; r<rows.length;r++){
+                     var rowitem = rows[r]
+                     table+='<tr>';
+                         for (var c=0;c < rowitem.length; c++){
+                             table += "<td style ='border:5px solid white' >"+ rowitem[c]+ "</td>";
+                         }
+                     table+='</tr>'
+    
+                 }
+    
+                 document.getElementById('table-data2').innerHTML=table
+                //  document.write('<table border = 1 >' + table + '</table')
+        </script>
+    
+        </div>
+    
+         <div style = 'color:blue' class = 'personal_details'>
+                    
+              <table><caption style ='border:5px solid white'>LAND OWNER DETAILS</caption>
+                  <tr>
+                  <th style ='border:5px solid white'>Column</th>
+                  <th style ='border:5px solid white'>Details</th>
+                  </tr>
+                  <tr>
+                      <td style ='border:5px solid white'>First Name</td>
+                      <td style ='border:5px solid white'>{{owner_detail2.First_Name}}</td>
+                  </tr>
+                  <tr>
+                    <td style ='border:5px solid white'>Surname</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.Surname}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Parcel Id</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.ParcelId}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Region</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.Region}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> District</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.District}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Locality</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.Locality}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Parcel Size(Acres)</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.ParcelSizeInAcres}}</td>
+    
+                  
+              </table>
+                
+           
+    </div> 
+    <img style = 'border-radius: 15px' src="{{owner_detail2.OwnerPhoto.url}}"> 
+</div>
+</div>
+{% elif polygon_data1 and polygon_data2 and  polygon_data3 %}
+
+<script type = "text/javascript">
+    function map_init_basic(map,options){
+        var poly1 = JSON.parse("{{polygon_data1|escapejs}}")
+        var parcelid1 = JSON.parse("{{owner_detail1.ParcelId|escapejs}}")
+        var parcelid2 = JSON.parse("{{owner_detail2.ParcelId|escapejs}}")
+        var parcelid3 = JSON.parse("{{owner_detail3.ParcelId|escapejs}}")
+        var poly2 = JSON.parse("{{polygon_data2|escapejs}}")
+        var poly3 = JSON.parse("{{polygon_data3|escapejs}}")  
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+}).addTo(map);    
+        L.polygon(poly1,{color:'red'}).bindPopup('Parcel ID' + ' '+ parcelid1).addTo(map);
+        L.polygon(poly2,{color:'red'}).bindPopup('Parcel ID' + ' '+ parcelid2).addTo(map);
+        L.polygon(poly3,{color:'red'}).bindPopup('Parcel ID' + ' '+ parcelid3).addTo(map)
+}  
+ </script>
+{% leaflet_map "yourmap" callback="window.map_init_basic" %}
+<div class = "details3">
+    <div class ="first-data1">
+<div style='color:white'>
+    <table border =5 solid  id = 'table-data1'></table>
+    <script>
+            var table = "<caption style='border:5px solid white'>BOUNDARY CORNER COORDNATES</caption>";
+            var rows = JSON.parse("{{nationalGrid1|escapejs}}");
+            for (var r = 0; r<rows.length;r++){
+                 var rowitem = rows[r]
+                 table+='<tr>';
+                     for (var c=0;c < rowitem.length; c++){
+                         table += "<td style ='border:5px solid white' >"+ rowitem[c]+ "</td>";
+                     }
+                 table+='</tr>'
+
+             }
+
+             document.getElementById('table-data1').innerHTML=table
+            //  document.write('<table border = 1 >' + table + '</table')
+    </script>
+
+    </div>
+
+     <div style = 'color:blue' class = 'personal_details'>
+                
+          <table><caption style ='border:5px solid white'>LAND OWNER DETAILS</caption>
+              <tr>
+              <th style ='border:5px solid white'>Column</th>
+              <th style ='border:5px solid white'>Details</th>
+              </tr>
+              <tr>
+                  <td style ='border:5px solid white'>First Name</td>
+                  <td style ='border:5px solid white'>{{owner_detail1.First_Name}}</td>
+              </tr>
+              <tr>
+                <td style ='border:5px solid white'>Surname</td>
+                <td style ='border:5px solid white'>{{owner_detail1.Surname}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Parcel Id</td>
+                <td style ='border:5px solid white'>{{owner_detail1.ParcelId}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Region</td>
+                <td style ='border:5px solid white'>{{owner_detail1.Region}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> District</td>
+                <td style ='border:5px solid white'>{{owner_detail1.District}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Locality</td>
+                <td style ='border:5px solid white'>{{owner_detail1.Locality}}</td>
+            </tr>
+            <tr>
+                <td style ='border:5px solid white'> Parcel Size(Acres)</td>
+                <td style ='border:5px solid white'>{{owner_detail1.ParcelSizeInAcres}}</td>
+
+
+              
+          </table>
+            
+       
+</div>
+<img style = 'border-radius: 15px' src="{{owner_detail1.OwnerPhoto.url}}">
+</div>
+<div class="second-data2">
+    <div style = 'color:white'>
+        <table border =5 solid white id = 'table-data2'></table>
+        <script>
+                var table = "<caption style='border:5px solid white'>BOUNDARY CORNER COORDINATES</caption>";
+                var rows = JSON.parse("{{nationalGrid2|escapejs}}");
+                for (var r = 0; r<rows.length;r++){
+                     var rowitem = rows[r]
+                     table+='<tr>';
+                         for (var c=0;c < rowitem.length; c++){
+                             table += "<td style ='border:5px solid white' >"+ rowitem[c]+ "</td>";
+                         }
+                     table+='</tr>'
+    
+                 }
+    
+                 document.getElementById('table-data2').innerHTML=table
+                //  document.write('<table border = 1 >' + table + '</table')
+        </script>
+    
+        </div>
+    
+         <div style = 'color:blue' class = 'personal_details'>
+                    
+              <table><caption style ='border:5px solid white'>LAND OWNER DETAILS</caption>
+                  <tr>
+                  <th style ='border:5px solid white'>Column</th>
+                  <th style ='border:5px solid white'>Details</th>
+                  </tr>
+                  <tr>
+                      <td style ='border:5px solid white'>First Name</td>
+                      <td style ='border:5px solid white'>{{owner_detail2.First_Name}}</td>
+                  </tr>
+                  <tr>
+                    <td style ='border:5px solid white'>Surname</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.Surname}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Parcel Id</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.ParcelId}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Region</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.Region}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> District</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.District}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Locality</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.Locality}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Parcel Size(Acres)</td>
+                    <td style ='border:5px solid white'>{{owner_detail2.ParcelSizeInAcres}}</td>
+    
+                  
+              </table>
+                
+           
+    </div> 
+    <img style = 'border-radius: 15px' src="{{owner_detail2.OwnerPhoto.url}}"> 
+</div>
+<div class ="third-data3">
+    <div style = 'color:white'>
+        <table border =5 solid white id = 'table-data3'></table>
+        <script>
+                var table = "<caption style='border:5px solid white'>BOUNDARY CORNER COORDINATES</caption>";
+                var rows = JSON.parse("{{nationalGrid3|escapejs}}");
+                for (var r = 0; r<rows.length;r++){
+                     var rowitem = rows[r]
+                     table+='<tr>';
+                         for (var c=0;c < rowitem.length; c++){
+                             table += "<td style ='border:5px solid white' >"+ rowitem[c]+ "</td>";
+                         }
+                     table+='</tr>'
+    
+                 }
+    
+                 document.getElementById('table-data3').innerHTML=table
+                //  document.write('<table border = 1 >' + table + '</table')
+        </script>
+    
+        </div>
+    
+         <div style = 'color:blue' class = 'personal_details'>
+                    
+              <table><caption style ='border:5px solid white'>LAND OWNER DETAILS</caption>
+                  <tr>
+                  <th style ='border:5px solid white'>Column</th>
+                  <th style ='border:5px solid white'>Details</th>
+                  </tr>
+                  <tr>
+                      <td style ='border:5px solid white'>First Name</td>
+                      <td style ='border:5px solid white'>{{owner_detail3.First_Name}}</td>
+                  </tr>
+                  <tr>
+                    <td style ='border:5px solid white'>Surname</td>
+                    <td style ='border:5px solid white'>{{owner_detail3.Surname}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Parcel Id</td>
+                    <td style ='border:5px solid white'>{{owner_detail3.ParcelId}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Region</td>
+                    <td style ='border:5px solid white'>{{owner_detail3.Region}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> District</td>
+                    <td style ='border:5px solid white'>{{owner_detail3.District}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Locality</td>
+                    <td style ='border:5px solid white'>{{owner_detail3.Locality}}</td>
+                </tr>
+                <tr>
+                    <td style ='border:5px solid white'> Parcel Size(Acres)</td>
+                    <td style ='border:5px solid white'>{{owner_detail3.ParcelSizeInAcres}}</td>
+    
+                  
+              </table>
+                
+           
+    </div>  
+    <img style = 'border-radius: 15px' src="{{owner_detail3.OwnerPhoto.url}}">
+</div>
+</div>
+
+{% endif %}
+{% else %}
+<p>User is Authenticated</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,57 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+<nav class="navbar navbar-expand-lg nav-cont">
+  
+  
+  <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-nav justify-content-between w-100 navItem1" >
+    <li class="nav-item">
+      <a style = 'color:white' class="nav-link active" aria-current="page" href="#">About Us </a>
+    </li>
+    <li class="nav-item">
+      <a style = 'color:white' class="nav-link" href="{% url 'register' %}">Register</a>
+    </li>
+    <li class="nav-item">
+      <a style = 'color:white' class="nav-link" href="{% url 'Login' %}" >Login</a>
+      
+    </li>
+  </ul>
+
+</nav>
+
+<div><h1 style="text-align:center">Stool Lands Management and Verification System</h1></div>
+<div class = "top_bg_color">
+</div>
+<div >
+    <div class = "message_cont" >
+      <div class = "mission_message">
+        <h1 class = 'mit'>Our Mission</h1>
+        <p>Our mission is to prevent illegal Land Business Transaction between Parties</p>
+      </div>
+      <div class = "vission_message">
+        <h1>Our Vission</h1>
+        <p>Our Vision is to prevent defrauding of lands by verifying the rightful owner of a land before you purchase
+        </p>
+        
+      </div>
+    </div>
+
+    <div class ="integrity_message">
+        
+            <img class = "image2" src="{% static 'homepage_images/im2.jpg' %}" alt=" No image here yet">
+        
+        <div class ="why_about">
+          <div style ='height:650px' class = "Why">
+            <h1 style ="font-size: 2em;"> <span style = 'color:red'>Why </span> We are So Unique </h1>
+            <p>We make sure you buy from legally certified land owners and toprevent you from losing money to fraudsters by using this software to verify the rightful ownership of the land</p>
+            <h1 style ="font-size: 2em">  About us</h1>
+            <p >We are here to verify whether the person claiming to own a land and about to sell the land to you is actually the rightful owner of the land. We are much more concerned about you losing huge sums of money to a fraudster.We also help chieves to manage their lands using our application by for instance keeping details of lands sold in our database. </p>
+          </div>
+          
+        </div>
+    </div>
+</div>
+{% endblock %}
