@@ -20,7 +20,7 @@ Follow these steps to set up and run the project:
 
 1. Clone this repository:
 
-      git clone https://github.com/martinaborgeh/Computing-for--X-Y-Z-Geospatial-Location-using-Tacheometry-data.git
+      git clone https://github.com/martinaborgeh/Land_Management_System.git
 
 
 
