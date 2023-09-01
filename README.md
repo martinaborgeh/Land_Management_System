@@ -30,7 +30,7 @@ Follow these steps to set up and run the project:
 
 4. Install the required dependencies:
 
-pip install Django, Gdal, Pyproj,Leaflet,Postgis, PostGreql.
+pip install Django, Gdal, Pyproj,Leaflet,Postgis, PostGreql,Psycop2,Pillow.
 
 
 
@@ -42,12 +42,14 @@ The project relies on the following dependencies:
 - Gdal
 - Pyproj
 - Postgis
+- Psycop2
+- Pillow
 - PostgreSql
-- PgAdmin
+
 
 ## Usage
 
-1. Create Database using pgAdmin using the same database credential as specified in settings.py.
+1. Create Database using pgAdmin with the same database credential as specified in settings.py.
 2. Run python manage.py makemigratings, python manage.py migrate.
 3. Run python manage.py CreateSuperuser and specify your admin Credentials.
 4. Run python manage.py runserver, copy the url provided in the terminal and paste in any browser.
