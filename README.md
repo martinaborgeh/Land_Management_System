@@ -1,4 +1,7 @@
 # Land Management System
+![alt text](landmanage.jpg)
+![alt text](landmange2.jpg)
+
 
 
 
